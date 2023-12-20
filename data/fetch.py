@@ -4,11 +4,12 @@ import pandas as pd
 import random
 import glob, yaml, json, xmltodict, os
 
+from data.slides import open_slide
 from utils import *
 
 import IPython
 
-data = yaml.load(open(f"{DATA_DIR}/processed/case_files_locs.yaml"))
+data = yaml.safe_load(open(f"{DATA_DIR}/processed/case_files_locs.yaml"))
 cases = data.keys()
 
 race_lookup = []
@@ -29,9 +30,9 @@ def load_cache(cache_file=FETCH_CACHE):
 	drug_lookup = data_dict['drug_lookup'].tolist()
 	disease_lookup = data_dict['disease_lookup'].tolist()
 
-load_cache()
 
-def cache():
+
+def cache(cache_file=FETCH_CACHE):
 	data_cached = np.array(data)
 	np.savez_compressed(cache_file, data=data_cached, race_lookup=race_lookup, 
 			disease_lookup=disease_lookup, drug_lookup=drug_lookup)
